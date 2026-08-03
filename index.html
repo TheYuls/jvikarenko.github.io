@@ -242,6 +242,8 @@
       transition: transform 0.6s var(--ease-out);
     }
     .work-card:hover .card-thumb svg { transform: scale(1.06); }
+    .card-thumb img { transition: transform 0.6s var(--ease-out); }
+    .work-card:hover .card-thumb img { transform: scale(1.06); }
 
     .card-body { padding: 1.4rem 1.5rem 1.6rem; }
 
@@ -353,7 +355,6 @@
       <span class="pill design">Procreate</span>
       <span class="pill design">Inclusive Design</span>
       <span class="pill design">Design Systems</span>
-      <span class="pill design">Presentation Design</span>
 
       <!-- Adobe Suite -->
       <span class="pill adobe">Adobe Illustrator</span>
@@ -367,6 +368,8 @@
       <span class="pill soft">iWork</span>
       <span class="pill soft">Wrike</span>
       <span class="pill soft">SAP</span>
+      <span class="pill soft">Confluence</span>
+      <span class="pill soft">Composer</span>
 
       <!-- Collaboration & Soft Skills -->
       <span class="pill collab">Project Management</span>
@@ -377,8 +380,9 @@
       <!-- AI -->
       <span class="pill ai">MidJourney</span>
       <span class="pill ai">Gemini</span>
-      <span class="pill ai">ChatGPT</span>
+      <span class="pill ai">Claude Code</span>
       <span class="pill ai">Nano Banana</span>
+
     </div>
   </div>
 
@@ -392,67 +396,42 @@
 <section class="section" id="work">
   <div class="work-header sr">
     <div>
-      <div class="section-tag">Work</div>
-      <h2>Selected Projects</h2>
-    </div>
-    <div class="filters">
-      <button class="filter-btn active" data-f="all">All</button>
-      <button class="filter-btn" data-f="graphic">Graphic</button>
-      <button class="filter-btn" data-f="instructional">Instructional</button>
+      <h2>My Work</h2>
     </div>
   </div>
 
   <div class="cards-grid">
 
     <div class="work-card sr d1" data-cat="graphic">
-      <div class="card-thumb thumb-pink">
-        <svg class="card-art" viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="100" cy="70" r="48" fill="none" stroke="#c07080" stroke-width="1.5"/>
-          <circle cx="100" cy="70" r="28" fill="none" stroke="#c07080" stroke-width="1"/>
-          <line x1="52" y1="70" x2="148" y2="70" stroke="#c07080" stroke-width="0.8"/>
-          <line x1="100" y1="22" x2="100" y2="118" stroke="#c07080" stroke-width="0.8"/>
-          <circle cx="100" cy="70" r="4" fill="#c07080"/>
-        </svg>
+      <div class="card-thumb" style="background:#f8f4f0;">
+        <img src="flowers.png" alt="Wedding Website" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s cubic-bezier(0.16,1,0.3,1);">
       </div>
       <div class="card-body">
         <div class="card-category">Graphic Design</div>
-        <div class="card-title">Brand Identity System</div>
-        <div class="card-desc">A complete visual identity — logo, typography, color palette, and brand guidelines for a lifestyle brand.</div>
+        <div class="card-title">Wedding Website</div>
+        <div class="card-desc">A delicate, elegant wedding website design featuring soft florals, refined typography, and a seamless guest experience.</div>
       </div>
     </div>
 
-    <div class="work-card sr d2" data-cat="instructional">
-      <div class="card-thumb thumb-blue">
-        <svg class="card-art" viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
-          <rect x="30" y="25" width="140" height="95" rx="6" fill="none" stroke="#4a90c0" stroke-width="1.5"/>
-          <line x1="30" y1="45" x2="170" y2="45" stroke="#4a90c0" stroke-width="0.8"/>
-          <rect x="44" y="56" width="40" height="28" rx="2" fill="#4a90c0" opacity="0.25"/>
-          <rect x="96" y="56" width="60" height="7" rx="1" fill="#4a90c0" opacity="0.3"/>
-          <rect x="96" y="68" width="44" height="7" rx="1" fill="#4a90c0" opacity="0.2"/>
-          <rect x="96" y="80" width="52" height="7" rx="1" fill="#4a90c0" opacity="0.18"/>
-        </svg>
+    <div class="work-card sr d2" data-cat="graphic">
+      <div class="card-thumb" style="background:#f5ede0;">
+        <img src="cover-page.png" alt="Children's Book" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s cubic-bezier(0.16,1,0.3,1);">
       </div>
       <div class="card-body">
-        <div class="card-category">Instructional Design</div>
-        <div class="card-title">eLearning Course Design</div>
-        <div class="card-desc">Interactive learning modules with structured content, assessments, and engaging visual storytelling.</div>
+        <div class="card-category">Graphic Design</div>
+        <div class="card-title">Children's Book</div>
+        <div class="card-desc">Cover and illustration design for "The Roar" — a charming children's book featuring a lovable lion with a surprisingly tiny voice.</div>
       </div>
     </div>
 
     <div class="work-card sr d3" data-cat="graphic">
-      <div class="card-thumb thumb-yellow">
-        <svg class="card-art" viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
-          <rect x="38" y="18" width="124" height="104" rx="2" fill="none" stroke="#b09020" stroke-width="1.5"/>
-          <rect x="50" y="30" width="100" height="66" rx="1" fill="none" stroke="#b09020" stroke-width="0.8"/>
-          <line x1="38" y1="100" x2="162" y2="100" stroke="#b09020" stroke-width="0.8"/>
-          <rect x="50" y="104" width="36" height="6" rx="1" fill="#b09020" opacity="0.3"/>
-          <rect x="126" y="104" width="24" height="6" rx="1" fill="#b09020" opacity="0.3"/>
-        </svg>
+      <div class="card-thumb" style="background:#1a3a4a;">
+        <img src="Watching-TV.jpg" alt="Animation" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s cubic-bezier(0.16,1,0.3,1);">
       </div>
       <div class="card-body">
         <div class="card-category">Graphic Design</div>
-        <div class="card-title">Publication &amp; Print Design</div>
-        <div class="card-desc">Editorial layout for a multi-page publication with refined typography and visual hierarchy.</div>
+        <div class="card-title">Animation</div>
+        <div class="card-desc">A vibrant illustrated animation featuring a charming flower character enjoying a cozy movie night.</div>
       </div>
     </div>
 
