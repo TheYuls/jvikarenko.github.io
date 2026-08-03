@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Julia Vikarenko — Designer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --white:   #fdfcfa;
+      --off:     #f7f5f0;
+      --ink:     #1e1a18;
+      --ink-mid: #5a524d;
+      --ink-lt:  #9a9088;
+      --line:    rgba(30,26,24,0.08);
+
+      /* pastels */
+      --pink:    #fadadd;
+      --pink-dk: #e8b4bb;
+      --yellow:  #fef3c7;
+      --yellow-dk:#e8d48a;
+      --blue:    #d4e8f8;
+      --blue-dk: #9fc8e8;
+      --green:   #d4edda;
+      --green-dk:#8ecba0;
+      --purple:  #e8d4f0;
+      --purple-dk:#c4a0d8;
+
+      --ease-out:  cubic-bezier(0.16,1,0.3,1);
+      --ease-apple:cubic-bezier(0.25,0.1,0.25,1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--white);
+      color: var(--ink);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      line-height: 1.75;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* grain */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 999; pointer-events: none; opacity: 0.02;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 120px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.4rem 5vw;
+      transition: background 0.5s var(--ease-apple), backdrop-filter 0.5s;
+    }
+    nav.solid {
+      background: rgba(253,252,250,0.85);
+      backdrop-filter: blur(20px) saturate(1.3);
+      -webkit-backdrop-filter: blur(20px) saturate(1.3);
+      border-bottom: 1px solid var(--line);
+    }
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem; font-weight: 400; letter-spacing: 0.08em;
+      color: var(--ink); text-decoration: none;
+      opacity: 0; animation: fadeDown 0.9s 0.1s var(--ease-out) forwards;
+    }
+    .nav-links { list-style: none; display: flex; gap: 2.5rem; }
+    .nav-links a {
+      text-decoration: none; font-size: 0.72rem; font-weight: 300;
+      letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-lt);
+      transition: color 0.25s;
+      opacity: 0; animation: fadeDown 0.9s var(--ease-out) forwards;
+    }
+    .nav-links li:nth-child(1) a { animation-delay: 0.2s; }
+    .nav-links li:nth-child(2) a { animation-delay: 0.32s; }
+    .nav-links li:nth-child(3) a { animation-delay: 0.44s; }
+    .nav-links a:hover { color: var(--ink); }
+
+    /* ── HERO / SKILLS ── */
+    .hero {
+      min-height: 100svh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 9rem 5vw 6rem;
+      position: relative; overflow: hidden;
+    }
+
+    /* floating pastel blobs */
+    .blob {
+      position: absolute; border-radius: 50%; filter: blur(60px);
+      pointer-events: none; opacity: 0.55;
+    }
+    .blob-1 { width: 420px; height: 420px; background: var(--pink);   top: -80px;  right: -60px; }
+    .blob-2 { width: 320px; height: 320px; background: var(--yellow); bottom: 60px; left: -80px; }
+    .blob-3 { width: 260px; height: 260px; background: var(--blue);   top: 40%;    right: 15%; }
+
+    .hero-inner { position: relative; z-index: 1; max-width: 900px; }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 7.5vw, 6.5rem);
+      font-weight: 300; line-height: 1.05; color: var(--ink);
+      margin-bottom: 4rem;
+    }
+
+    .skills-label {
+      font-size: 0.65rem; font-weight: 400; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--ink-lt);
+      margin-bottom: 1.2rem;
+      display: flex; align-items: center; gap: 0.8rem;
+      opacity: 0; animation: fadeUp 0.9s 1s var(--ease-out) forwards;
+    }
+    .skills-label::before {
+      content: ''; display: block; width: 24px; height: 1px;
+      background: var(--ink-lt); opacity: 0.5;
+    }
+    .word { display: inline-block; overflow: hidden; vertical-align: bottom; }
+    .word span {
+      display: inline-block; opacity: 0; transform: translateY(105%);
+      animation: wordUp 0.85s var(--ease-out) forwards;
+    }
+    .word:nth-child(1) span { animation-delay: 0.45s; }
+    .word:nth-child(2) span { animation-delay: 0.57s; }
+    .word:nth-child(3) span { animation-delay: 0.69s; }
+    .word:nth-child(4) span { animation-delay: 0.81s; }
+    .hero-title em { font-style: italic; }
+
+    /* ── SKILL PILLS ── */
+    .pills-wrap {
+      display: flex; flex-wrap: wrap; gap: 0.6rem;
+      opacity: 0; animation: fadeUp 0.9s 1.2s var(--ease-out) forwards;
+    }
+
+    .pill {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.45rem 1.1rem;
+      border-radius: 100px;
+      font-size: 0.78rem; font-weight: 300; letter-spacing: 0.03em;
+      color: var(--ink); border: 1.5px solid transparent;
+      transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
+      cursor: default;
+    }
+    .pill:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+
+    /* pill color assignments */
+    .pill.design    { background: var(--pink);   border-color: var(--pink-dk); }
+    .pill.adobe     { background: var(--yellow); border-color: var(--yellow-dk); }
+    .pill.soft      { background: var(--blue);   border-color: var(--blue-dk); }
+    .pill.collab    { background: var(--green);  border-color: var(--green-dk); }
+    .pill.ai        { background: var(--purple); border-color: var(--purple-dk); }
+
+
+    /* scroll hint */
+    .scroll-hint {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      opacity: 0; animation: fadeUp 1s 1.6s var(--ease-out) forwards;
+    }
+    .scroll-hint span { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-lt); }
+    .scroll-line {
+      width: 1px; height: 44px;
+      background: linear-gradient(to bottom, var(--ink-lt), transparent);
+      animation: pulse 2.2s 2.4s ease-in-out infinite; transform-origin: top;
+    }
+
+    /* ── SECTION BASE ── */
+    .section { padding: 8rem 5vw; }
+    .section-tag {
+      font-size: 0.65rem; font-weight: 400; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--ink-lt);
+      margin-bottom: 3rem;
+      display: flex; align-items: center; gap: 0.8rem;
+    }
+    .section-tag::before { content: ''; display: block; width: 24px; height: 1px; background: var(--ink-lt); opacity: 0.5; }
+
+    /* ── WORK ── */
+    #work { border-top: 1px solid var(--line); }
+
+    .work-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 4rem;
+    }
+    .work-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 300; color: var(--ink);
+    }
+
+    .filters { display: flex; gap: 0.35rem; }
+    .filter-btn {
+      font-family: 'Jost', sans-serif; font-size: 0.7rem; font-weight: 300;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-lt);
+      background: transparent; border: 1px solid var(--line);
+      padding: 0.5rem 1.2rem; border-radius: 100px; cursor: pointer;
+      transition: all 0.3s var(--ease-apple);
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--ink); border-color: var(--ink); color: var(--white);
+    }
+
+    /* CARDS GRID */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.6rem;
+    }
+
+    .work-card {
+      border-radius: 16px; overflow: hidden;
+      background: var(--off);
+      transition: transform 0.55s var(--ease-out), box-shadow 0.55s var(--ease-out);
+      cursor: pointer;
+    }
+    .work-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 56px rgba(30,26,24,0.11);
+    }
+
+    /* thumbnail */
+    .card-thumb {
+      width: 100%; aspect-ratio: 16/10;
+      position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* pastel placeholder backgrounds per card */
+    .thumb-pink   { background: linear-gradient(135deg, var(--pink)   0%, #f5c0c8 100%); }
+    .thumb-yellow { background: linear-gradient(135deg, var(--yellow)  0%, #fce98a 100%); }
+    .thumb-blue   { background: linear-gradient(135deg, var(--blue)    0%, #aad4f0 100%); }
+    .thumb-green  { background: linear-gradient(135deg, var(--green)   0%, #a8ddb8 100%); }
+    .thumb-purple { background: linear-gradient(135deg, var(--purple)  0%, #d0aae0 100%); }
+    .thumb-mix    { background: linear-gradient(135deg, #fadadd 0%, #d4e8f8 50%, #d4edda 100%); }
+
+    /* placeholder SVG art inside each card */
+    .card-art { width: 70%; height: 70%; opacity: 0.4; }
+
+    /* zoom on hover */
+    .card-thumb svg {
+      transition: transform 0.6s var(--ease-out);
+    }
+    .work-card:hover .card-thumb svg { transform: scale(1.06); }
+
+    .card-body { padding: 1.4rem 1.5rem 1.6rem; }
+
+    .card-category {
+      font-size: 0.65rem; font-weight: 400; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--ink-lt); margin-bottom: 0.5rem;
+    }
+    .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.22rem; font-weight: 400; color: var(--ink);
+      margin-bottom: 0.5rem; line-height: 1.25;
+    }
+    .card-desc { font-size: 0.82rem; color: var(--ink-mid); line-height: 1.6; }
+
+    /* ── CONTACT ── */
+    #contact {
+      border-top: 1px solid var(--line);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start;
+    }
+    .contact-left h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 300;
+      line-height: 1.18; color: var(--ink); margin-bottom: 1.2rem;
+    }
+    .contact-left h2 em { font-style: italic; }
+    .contact-left p { color: var(--ink-mid); font-size: 0.9rem; max-width: 360px; }
+
+    .contact-links { display: flex; flex-direction: column; padding-top: 0.5rem; }
+    .clink {
+      display: flex; justify-content: space-between; align-items: center;
+      text-decoration: none; color: var(--ink); font-size: 0.88rem; font-weight: 300;
+      padding: 1.3rem 0; border-bottom: 1px solid var(--line);
+      transition: color 0.25s, padding-left 0.35s var(--ease-out);
+    }
+    .clink:first-child { border-top: 1px solid var(--line); }
+    .clink:hover { color: var(--ink-mid); padding-left: 0.6rem; }
+    .clink-arrow { opacity: 0.35; transition: opacity 0.25s, transform 0.35s var(--ease-out); }
+    .clink:hover .clink-arrow { opacity: 1; transform: translate(4px,-4px); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem 5vw; border-top: 1px solid var(--line);
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.72rem; font-weight: 300; letter-spacing: 0.08em; color: var(--ink-lt);
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .sr {
+      opacity: 0; transform: translateY(38px);
+      transition: opacity 0.95s var(--ease-out), transform 0.95s var(--ease-out);
+    }
+    .sr.d1 { transition-delay: 0.07s; }
+    .sr.d2 { transition-delay: 0.15s; }
+    .sr.d3 { transition-delay: 0.23s; }
+    .sr.d4 { transition-delay: 0.31s; }
+    .sr.d5 { transition-delay: 0.39s; }
+    .sr.d6 { transition-delay: 0.47s; }
+    .sr.in { opacity: 1; transform: translateY(0); }
+
+    /* ── KEYFRAMES ── */
+    @keyframes fadeUp   { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes fadeDown { from{opacity:0;transform:translateY(-14px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes wordUp   { from{opacity:0;transform:translateY(105%)} to{opacity:1;transform:translateY(0)} }
+    @keyframes pulse    { 0%,100%{opacity:0.4;transform:scaleY(0.5)} 50%{opacity:1;transform:scaleY(1)} }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      .cards-grid { grid-template-columns: repeat(2,1fr); }
+      #contact { grid-template-columns: 1fr; gap: 3.5rem; }
+      .work-header { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+    }
+    @media (max-width: 580px) {
+      .cards-grid { grid-template-columns: 1fr; }
+      .nav-links { gap: 1.5rem; }
+      footer { flex-direction: column; gap: 0.6rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="logo" href="#">Julia Vikarenko</a>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO — SKILLS LANDING -->
+<section class="hero">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <div class="hero-inner">
+    <h1 class="hero-title">
+      <span class="word"><span>I design</span></span>&nbsp;
+      <span class="word"><span>with</span></span>&nbsp;
+      <span class="word"><span><em>purpose.</em></span></span>
+    </h1>
+
+    <p class="skills-label">Skills &amp; Tools</p>
+
+    <div class="pills-wrap">
+      <!-- Design Tools -->
+      <span class="pill design">Figma</span>
+      <span class="pill design">Keynote</span>
+      <span class="pill design">Procreate</span>
+      <span class="pill design">Inclusive Design</span>
+      <span class="pill design">Design Systems</span>
+      <span class="pill design">Presentation Design</span>
+
+      <!-- Adobe Suite -->
+      <span class="pill adobe">Adobe Illustrator</span>
+      <span class="pill adobe">Adobe Photoshop</span>
+      <span class="pill adobe">Adobe InDesign</span>
+      <span class="pill adobe">Adobe After Effects</span>
+      <span class="pill adobe">Adobe XD</span>
+
+      <!-- Productivity -->
+      <span class="pill soft">Microsoft Office</span>
+      <span class="pill soft">iWork</span>
+      <span class="pill soft">Wrike</span>
+      <span class="pill soft">SAP</span>
+
+      <!-- Collaboration & Soft Skills -->
+      <span class="pill collab">Project Management</span>
+      <span class="pill collab">Cross-Functional Collaboration</span>
+      <span class="pill collab">Research &amp; Observation</span>
+      <span class="pill collab">Presentation Skills</span>
+
+      <!-- AI -->
+      <span class="pill ai">MidJourney</span>
+      <span class="pill ai">Gemini</span>
+      <span class="pill ai">ChatGPT</span>
+      <span class="pill ai">Nano Banana</span>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="section" id="work">
+  <div class="work-header sr">
+    <div>
+      <div class="section-tag">Work</div>
+      <h2>Selected Projects</h2>
+    </div>
+    <div class="filters">
+      <button class="filter-btn active" data-f="all">All</button>
+      <button class="filter-btn" data-f="graphic">Graphic</button>
+      <button class="filter-btn" data-f="instructional">Instructional</button>
+    </div>
+  </div>
+
+  <div class="cards-grid">
+
+    <div class="work-card sr d1" data-cat="graphic">
+      <div class="card-thumb thumb-pink">
+        <svg class="card-art" viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="100" cy="70" r="48" fill="none" stroke="#c07080" stroke-width="1.5"/>
+          <circle cx="100" cy="70" r="28" fill="none" stroke="#c07080" stroke-width="1"/>
+          <line x1="52" y1="70" x2="148" y2="70" stroke="#c07080" stroke-width="0.8"/>
+          <line x1="100" y1="22" x2="100" y2="118" stroke="#c07080" stroke-width="0.8"/>
+          <circle cx="100" cy="70" r="4" fill="#c07080"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Graphic Design</div>
+        <div class="card-title">Brand Identity System</div>
+        <div class="card-desc">A complete visual identity — logo, typography, color palette, and brand guidelines for a lifestyle brand.</div>
+      </div>
+    </div>
+
+    <div class="work-card sr d2" data-cat="instructional">
+      <div class="card-thumb thumb-blue">
+        <svg class="card-art" viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="25" width="140" height="95" rx="6" fill="none" stroke="#4a90c0" stroke-width="1.5"/>
+          <line x1="30" y1="45" x2="170" y2="45" stroke="#4a90c0" stroke-width="0.8"/>
+          <rect x="44" y="56" width="40" height="28" rx="2" fill="#4a90c0" opacity="0.25"/>
+          <rect x="96" y="56" width="60" height="7" rx="1" fill="#4a90c0" opacity="0.3"/>
+          <rect x="96" y="68" width="44" height="7" rx="1" fill="#4a90c0" opacity="0.2"/>
+          <rect x="96" y="80" width="52" height="7" rx="1" fill="#4a90c0" opacity="0.18"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Instructional Design</div>
+        <div class="card-title">eLearning Course Design</div>
+        <div class="card-desc">Interactive learning modules with structured content, assessments, and engaging visual storytelling.</div>
+      </div>
+    </div>
+
+    <div class="work-card sr d3" data-cat="graphic">
+      <div class="card-thumb thumb-yellow">
+        <svg class="card-art" viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+          <rect x="38" y="18" width="124" height="104" rx="2" fill="none" stroke="#b09020" stroke-width="1.5"/>
+          <rect x="50" y="30" width="100" height="66" rx="1" fill="none" stroke="#b09020" stroke-width="0.8"/>
+          <line x1="38" y1="100" x2="162" y2="100" stroke="#b09020" stroke-width="0.8"/>
+          <rect x="50" y="104" width="36" height="6" rx="1" fill="#b09020" opacity="0.3"/>
+          <rect x="126" y="104" width="24" height="6" rx="1" fill="#b09020" opacity="0.3"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Graphic Design</div>
+        <div class="card-title">Publication &amp; Print Design</div>
+        <div class="card-desc">Editorial layout for a multi-page publication with refined typography and visual hierarchy.</div>
+      </div>
+    </div>
+
+    <div class="work-card sr d4" data-cat="instructional">
+      <div class="card-thumb thumb-green">
+        <svg class="card-art" viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="70"  cy="70" r="32" fill="none" stroke="#2a9050" stroke-width="1.5"/>
+          <circle cx="130" cy="70" r="32" fill="none" stroke="#2a9050" stroke-width="1.5"/>
+          <circle cx="100" cy="48" r="24" fill="none" stroke="#2a9050" stroke-width="1"/>
+          <line x1="70" y1="70" x2="130" y2="70" stroke="#2a9050" stroke-width="0.6"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Instructional Design</div>
+        <div class="card-title">Learning Experience Map</div>
+        <div class="card-desc">A comprehensive curriculum map connecting learning objectives, activities, and outcomes across modules.</div>
+      </div>
+    </div>
+
+    <div class="work-card sr d5" data-cat="graphic">
+      <div class="card-thumb thumb-purple">
+        <svg class="card-art" viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="100,20 170,110 30,110" fill="none" stroke="#8040a0" stroke-width="1.5"/>
+          <polygon points="100,44 150,110 50,110" fill="none" stroke="#8040a0" stroke-width="0.8"/>
+          <line x1="100" y1="20" x2="100" y2="110" stroke="#8040a0" stroke-width="0.6"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Graphic Design</div>
+        <div class="card-title">Packaging &amp; Print</div>
+        <div class="card-desc">Product packaging design with cohesive branding, material considerations, and print-ready files.</div>
+      </div>
+    </div>
+
+    <div class="work-card sr d6" data-cat="instructional">
+      <div class="card-thumb thumb-mix">
+        <svg class="card-art" viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+          <line x1="30" y1="30" x2="30" y2="115" stroke="#507090" stroke-width="1.2"/>
+          <line x1="30" y1="115" x2="170" y2="115" stroke="#507090" stroke-width="1.2"/>
+          <polyline points="30,95 68,68 106,80 144,40" fill="none" stroke="#507090" stroke-width="1.8"/>
+          <circle cx="30"  cy="95" r="3" fill="#507090"/>
+          <circle cx="68"  cy="68" r="3" fill="#507090"/>
+          <circle cx="106" cy="80" r="3" fill="#507090"/>
+          <circle cx="144" cy="40" r="3" fill="#507090"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Instructional Design</div>
+        <div class="card-title">Corporate Training Program</div>
+        <div class="card-desc">End-to-end training program design including needs analysis, content development, and performance tracking.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+  <div class="contact-left">
+    <div class="section-tag sr">Contact</div>
+    <h2 class="sr d1">Let's make something<br><em>worth remembering.</em></h2>
+    <p class="sr d2">Open to freelance projects, collaborations, and full-time roles. Let's talk.</p>
+  </div>
+  <div class="contact-links sr d2">
+    <a class="clink" href="mailto:hello@juliavikarenko.com">
+      <span>hello@juliavikarenko.com</span><span class="clink-arrow">↗</span>
+    </a>
+    <a class="clink" href="https://linkedin.com/in/juliavikarenko" target="_blank">
+      <span>LinkedIn</span><span class="clink-arrow">↗</span>
+    </a>
+    <a class="clink" href="https://dribbble.com/juliavikarenko" target="_blank">
+      <span>Dribbble</span><span class="clink-arrow">↗</span>
+    </a>
+    <a class="clink" href="resume.pdf" target="_blank">
+      <span>Download Résumé</span><span class="clink-arrow">↗</span>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Julia Vikarenko</span>
+  <span>Graphic Design · Instructional Design</span>
+</footer>
+
+<script>
+  // Nav glass
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('solid', window.scrollY > 50);
+  }, { passive: true });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.sr').forEach(el => observer.observe(el));
+
+  // Filter
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.f;
+      document.querySelectorAll('.work-card').forEach(card => {
+        const show = f === 'all' || card.dataset.cat === f;
+        card.style.opacity = show ? '1' : '0';
+        card.style.pointerEvents = show ? 'auto' : 'none';
+        card.style.transform = show ? '' : 'scale(0.95)';
+        card.style.position = show ? '' : 'absolute';
+        card.style.display = show ? '' : 'none';
+      });
+    });
+  });
+</script>
+</body>
+</html>
