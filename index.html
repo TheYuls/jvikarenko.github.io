@@ -103,8 +103,9 @@
     .hero-title {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(3rem, 7.5vw, 6.5rem);
-      font-weight: 300; line-height: 1.05; color: var(--ink);
+      font-weight: 300; line-height: 1.15; color: var(--ink);
       margin-bottom: 4rem;
+      padding-bottom: 0.1em;
     }
 
     .skills-label {
@@ -118,7 +119,7 @@
       content: ''; display: block; width: 24px; height: 1px;
       background: var(--ink-lt); opacity: 0.5;
     }
-    .word { display: inline-block; overflow: hidden; vertical-align: bottom; }
+    .word { display: inline-block; overflow: visible; vertical-align: bottom; }
     .word span {
       display: inline-block; opacity: 0; transform: translateY(105%);
       animation: wordUp 0.85s var(--ease-out) forwards;
@@ -443,21 +444,11 @@
 <section class="section" id="contact">
   <div class="contact-left">
     <div class="section-tag sr">Contact</div>
-    <h2 class="sr d1">Let's make something<br><em>worth remembering.</em></h2>
-    <p class="sr d2">Open to freelance projects, collaborations, and full-time roles. Let's talk.</p>
+    <h2 class="sr d1">Get in <em>touch.</em></h2>
   </div>
   <div class="contact-links sr d2">
-    <a class="clink" href="mailto:hello@juliavikarenko.com">
-      <span>hello@juliavikarenko.com</span><span class="clink-arrow">↗</span>
-    </a>
-    <a class="clink" href="https://linkedin.com/in/juliavikarenko" target="_blank">
-      <span>LinkedIn</span><span class="clink-arrow">↗</span>
-    </a>
-    <a class="clink" href="https://dribbble.com/juliavikarenko" target="_blank">
-      <span>Dribbble</span><span class="clink-arrow">↗</span>
-    </a>
-    <a class="clink" href="resume.pdf" target="_blank">
-      <span>Download Résumé</span><span class="clink-arrow">↗</span>
+    <a class="clink" href="mailto:ivikarenko@apple.com">
+      <span>ivikarenko@apple.com</span><span class="clink-arrow">↗</span>
     </a>
   </div>
 </section>
