@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Children's Book — Julia Vikarenko</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --white:     #fdfcfa;
+      --off:       #f7f5f0;
+      --ink:       #1e1a18;
+      --ink-mid:   #5a524d;
+      --ink-lt:    #9a9088;
+      --line:      rgba(30,26,24,0.08);
+      --yellow:    #fef3c7;
+      --yellow-dk: #e8d48a;
+      --ease-out:  cubic-bezier(0.16,1,0.3,1);
+      --ease-apple:cubic-bezier(0.25,0.1,0.25,1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--white);
+      color: var(--ink);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      line-height: 1.75;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 999; pointer-events: none; opacity: 0.02;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 120px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.4rem 5vw;
+      background: rgba(253,252,250,0.88);
+      backdrop-filter: blur(20px) saturate(1.3);
+      -webkit-backdrop-filter: blur(20px) saturate(1.3);
+      border-bottom: 1px solid var(--line);
+    }
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem; font-weight: 400; letter-spacing: 0.08em;
+      color: var(--ink); text-decoration: none;
+    }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.72rem; font-weight: 300; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--ink-lt);
+      text-decoration: none; transition: color 0.25s;
+    }
+    .back-btn:hover { color: var(--ink); }
+    .back-btn svg { transition: transform 0.3s var(--ease-out); }
+    .back-btn:hover svg { transform: translateX(-3px); }
+
+    /* ── HERO ── */
+    .case-hero {
+      min-height: 70vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 10rem 5vw 5rem;
+      position: relative; overflow: hidden;
+      background: linear-gradient(135deg, var(--yellow) 0%, #f5e8c0 100%);
+    }
+
+    .case-hero-img {
+      position: absolute; inset: 0;
+      background-image: url('cover-page.png');
+      background-size: cover; background-position: center top;
+      opacity: 0.2;
+    }
+
+    .case-hero-inner { position: relative; z-index: 1; max-width: 760px; }
+
+    .case-tag {
+      font-size: 0.65rem; font-weight: 400; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--ink-lt);
+      margin-bottom: 1.2rem;
+      display: flex; align-items: center; gap: 0.8rem;
+      opacity: 0; animation: fadeUp 0.9s 0.2s var(--ease-out) forwards;
+    }
+    .case-tag::before { content: ''; display: block; width: 24px; height: 1px; background: var(--ink-lt); opacity: 0.5; }
+
+    .case-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      font-weight: 300; line-height: 1.05; color: var(--ink);
+      margin-bottom: 1.5rem;
+      opacity: 0; animation: fadeUp 0.9s 0.35s var(--ease-out) forwards;
+    }
+    .case-title em { font-style: italic; }
+
+    .case-meta {
+      display: flex; gap: 3rem; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.9s 0.5s var(--ease-out) forwards;
+    }
+    .meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
+    .meta-label { font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-lt); }
+    .meta-value { font-size: 0.88rem; color: var(--ink-mid); }
+
+    /* ── CONTENT ── */
+    .case-content { max-width: 860px; margin: 0 auto; padding: 6rem 5vw; }
+
+    .case-section { margin-bottom: 5rem; }
+
+    .case-section-label {
+      font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--ink-lt); margin-bottom: 1.2rem;
+      display: flex; align-items: center; gap: 0.8rem;
+    }
+    .case-section-label::before { content: ''; display: block; width: 20px; height: 1px; background: var(--ink-lt); opacity: 0.5; }
+
+    .case-section h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 300;
+      color: var(--ink); margin-bottom: 1.2rem; line-height: 1.2;
+    }
+    .case-section h2 em { font-style: italic; }
+
+    .case-section p {
+      font-size: 0.95rem; color: var(--ink-mid);
+      line-height: 1.85; margin-bottom: 1rem;
+    }
+
+    .case-divider { width: 100%; height: 1px; background: var(--line); margin: 4rem 0; }
+
+    /* ── SKETCHES GRID ── */
+    .sketches-note {
+      font-size: 0.82rem; color: var(--ink-lt);
+      font-style: italic; margin-top: 1rem; text-align: center;
+    }
+
+    /* ── VIDEO EMBED ── */
+    .embed-wrap {
+      width: 100%; border-radius: 16px; overflow: hidden;
+      box-shadow: 0 24px 64px rgba(30,26,24,0.12);
+      background: #191919;
+      margin-top: 1.5rem;
+    }
+    .embed-wrap iframe {
+      width: 100%; height: 500px; border: none; display: block;
+    }
+
+    /* ── COVER IMAGE ── */
+    .cover-img {
+      width: 100%; border-radius: 16px; overflow: hidden;
+      box-shadow: 0 20px 56px rgba(30,26,24,0.1);
+      margin-top: 1.5rem;
+    }
+    .cover-img img {
+      width: 100%; display: block;
+      transition: transform 0.6s var(--ease-out);
+    }
+    .cover-img:hover img { transform: scale(1.02); }
+
+    /* ── SCROLL REVEAL ── */
+    .sr {
+      opacity: 0; transform: translateY(36px);
+      transition: opacity 0.95s var(--ease-out), transform 0.95s var(--ease-out);
+    }
+    .sr.d1 { transition-delay: 0.08s; }
+    .sr.d2 { transition-delay: 0.16s; }
+    .sr.in { opacity: 1; transform: translateY(0); }
+
+    /* ── FOOTER ── */
+    .case-footer {
+      padding: 2rem 5vw; border-top: 1px solid var(--line);
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.72rem; font-weight: 300; letter-spacing: 0.08em; color: var(--ink-lt);
+    }
+    .case-footer a { text-decoration: none; color: var(--ink-lt); transition: color 0.25s; }
+    .case-footer a:hover { color: var(--ink); }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+
+    @media (max-width: 600px) {
+      .case-meta { gap: 1.5rem; }
+      .embed-wrap iframe { height: 280px; }
+      .case-footer { flex-direction: column; gap: 0.6rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="index.html">Julia Vikarenko</a>
+  <a class="back-btn" href="index.html">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Back to Work
+  </a>
+</nav>
+
+<header class="case-hero">
+  <div class="case-hero-img"></div>
+  <div class="case-hero-inner">
+    <div class="case-tag">Illustration · Animation · Narration</div>
+    <h1 class="case-title">Children's<br><em>Book</em></h1>
+    <div class="case-meta">
+      <div class="meta-item">
+        <span class="meta-label">Illustration</span>
+        <span class="meta-value">Adobe Illustrator</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Animation</span>
+        <span class="meta-value">Adobe After Effects</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Role</span>
+        <span class="meta-value">Design, Illustration, Narration</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="case-content">
+
+  <!-- OVERVIEW -->
+  <div class="case-section sr">
+    <div class="case-section-label">Overview</div>
+    <h2>A story designed, illustrated, <em>and told.</em></h2>
+    <p>For this project, I designed and illustrated a children's book from scratch. Using Adobe Illustrator, I created original character designs, backgrounds, and visual elements in a warm, storybook style. Key scenes were then animated in Adobe After Effects to bring the story to life with movement and expression. To complete the experience, I recorded and narrated the story myself — combining visuals and voice into an engaging, animated read-aloud.</p>
+  </div>
+
+  <div class="case-divider"></div>
+
+  <!-- COVER -->
+  <div class="case-section sr d1">
+    <div class="case-section-label">Cover</div>
+    <h2>Where the story <em>begins.</em></h2>
+    <div class="cover-img">
+      <img src="cover-page.png" alt="The Roar — Children's Book Cover"/>
+    </div>
+  </div>
+
+  <div class="case-divider"></div>
+
+  <!-- SKETCHES -->
+  <div class="case-section sr d1">
+    <div class="case-section-label">Process</div>
+    <h2>From rough sketch <em>to final illustration.</em></h2>
+    <p>Original sketches showing how the book came together — from rough ideas to final illustrations. A look at how the characters and scenes evolved throughout the process.</p>
+    <div class="cover-img" style="margin-top:2rem;">
+      <img src="sketches_for_portfolio_copy.png" alt="Children's Book Sketches"/>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.4rem; margin-top:1.4rem;">
+      <div class="cover-img" style="margin-top:0;">
+        <img src="pages-02_for_portfolio_copy.png" alt="Children's Book Page — Bird"/>
+      </div>
+      <div class="cover-img" style="margin-top:0;">
+        <img src="pages-07_for_portfolio_copy.png" alt="Children's Book Page — Roar"/>
+      </div>
+    </div>
+  </div>
+
+  <div class="case-divider"></div>
+
+  <!-- ANIMATION -->
+  <div class="case-section sr d2">
+    <div class="case-section-label">Animation</div>
+    <h2>Press play to see the story <em>come to life.</em></h2>
+    <div class="embed-wrap">
+      <iframe src="https://www-ccv.adobe.io/v1/player/ccv/2DEedEMhZFe/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View" allowfullscreen></iframe>
+    </div>
+  </div>
+
+</div>
+
+<footer class="case-footer">
+  <span>© 2026 Julia Vikarenko</span>
+  <a href="index.html">← Back to all work</a>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.sr').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
